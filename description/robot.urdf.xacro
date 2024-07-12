@@ -11,7 +11,7 @@
     <xacro:unless value="$(arg use_ros2_control)">
         <xacro:include filename="gazebo_control.xacro" />
     </xacro:unless>
-
     <xacro:include filename="lidar.xacro" />
-
+    
+    
 </robot>

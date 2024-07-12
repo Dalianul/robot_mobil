@@ -8,4 +8,5 @@ ros2 launch robot_mobil launch_sim.launch.py world:=./src/robot_mobil/worlds/Map
 
 rviz2 -d dev_ws/src/robot_mobil/config/main_bot.rviz
 
+!!! Important: Update Ubuntu OS to the latest version
 Package for the robot_mobil project.
