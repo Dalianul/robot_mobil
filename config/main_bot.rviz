@@ -4,7 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /LaserScan1
         - /LaserScan1/Topic1
       Splitter Ratio: 0.5
     Tree Height: 549
@@ -228,7 +227,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.3945801258087158
+      Distance: 3.8672804832458496
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
