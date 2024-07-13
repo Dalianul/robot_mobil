@@ -4,13 +4,13 @@
     <joint name="camera_joint" type="fixed">
         <parent link="chassis"/>
         <child link="camera_link"/>
-        <origin xyz="0.22 0 0.04" rpy="0 0 0"/>
+        <origin xyz="0.2223 0 0.035" rpy="0 0 0"/>
     </joint>
 
     <link name="camera_link">
         <visual>
             <geometry>
-                <box size="0.010 0.02 0.02"/>
+                <box size="0.005 0.02 0.02"/>
             </geometry>
             <material name="black"/>
         </visual>
@@ -18,7 +18,7 @@
 
 
     <joint name="camera_joint_optical" type="fixed">
-        <parent link="chassis"/>
+        <parent link="camera_link"/>
         <child link="camera_link_optical"/>
         <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
     </joint>
@@ -32,9 +32,9 @@
         <sensor name="camera" type="camera">
             <pose> 0 0 0 0 0 0 </pose>
             <visualize>true</visualize>
-            <update_rate>10</update_rate>
+            <update_rate>31</update_rate>
             <camera>
-                <horizontal_fov>1</horizontal_fov>
+                <horizontal_fov>1.089</horizontal_fov>
                 <image>
                     <width>640</width>
                     <height>480</height>
