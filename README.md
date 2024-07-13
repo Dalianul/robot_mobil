@@ -8,5 +8,9 @@ ros2 launch robot_mobil launch_sim.launch.py world:=./src/robot_mobil/worlds/Map
 
 rviz2 -d dev_ws/src/robot_mobil/config/main_bot.rviz
 
+!!!Dont't forget about the visualize parameter in lidar.xacro-> true/false
+
+!In Rviz for good visibility uncheck robot model, grid model etc.
+
 !!! Important: Update Ubuntu OS to the latest version
 Package for the robot_mobil project.
