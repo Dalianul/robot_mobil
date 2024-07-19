@@ -16,6 +16,8 @@ sudo apt install joystick jstest-gtk evtest
 
 ros2 launch robot_mobil joystick.launch.py //Controlling robot with joystick (configured Xbox Series X controller)
 
+ros2 launch rosbridge_server rosbridge_websocket_launch.xml //to start the rosbridge server
+
 !!! Dont't forget about the visualize parameter in lidar.xacro-> true/false
 
 !!! In Rviz for good visibility of the camera uncheck robot model, grid model etc.
