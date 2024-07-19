@@ -1,25 +1,67 @@
 ### Robot Package
 
-ros2 launch slam_toolbox online_async_launch.py slam_params_file:=./src/robot_mobil/config/mapper_params_online_async.yaml use_sim_time:=true //asta doar pentru localizare, pt. mapare foloseste cu sync
+#### Setup and Launch Instructions
 
-ros2 launch robot_mobil launch_sim.launch.py world:=./src/robot_mobil/worlds/MapaSimulare.world //Gazebo with custom world
+1. **Run SLAM Toolbox**:
+    ```bash
+    ros2 launch slam_toolbox online_async_launch.py slam_params_file:=./src/robot_mobil/config/mapper_params_online_async.yaml use_sim_time:=true
+    ```
 
-rviz2 -d dev_ws/src/robot_mobil/config/main_bot.rviz //RViz2
+    > Note: For mapping, use synchronous launch instead.
 
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/diff_controller/cmd_vel_unstamped //For controlling the robot with the keyboard
+2. **Launch Simulation in Gazebo**:
+    ```bash
+    ros2 launch robot_mobil launch_sim.launch.py world:=./src/robot_mobil/worlds/MapaSimulare.world
+    ```
 
-//Joystick drivers install
-sudo apt install joystick jstest-gtk evtest
+    > Note: Specified a custom world in the launch command.
 
-!!! Install joy_tester repo also: https://github.com/joshnewans/joy_tester //For configuring joystick and also for Gazebo
-//Ignore the deprecation warnings
+3. **Start RViz2**:
+    ```bash
+    rviz2 -d dev_ws/src/robot_mobil/config/main_bot.rviz
+    ```
 
-ros2 launch robot_mobil joystick.launch.py //Controlling robot with joystick (configured Xbox Series X controller)
+    > Note: Specified a custom config in the launch command.
 
 ros2 launch rosbridge_server rosbridge_websocket_launch.xml //to start the rosbridge server
 
 !!! Dont't forget about the visualize parameter in lidar.xacro-> true/false
 
-!!! In Rviz for good visibility of the camera uncheck robot model, grid model etc.
+#### Joystick Setup
 
-!!! Important: Update Ubuntu OS and all the ROS2 tools to the latest version
+1. **Install Joystick Drivers**:
+    ```bash
+    sudo apt install joystick jstest-gtk evtest
+    ```
+
+2. **Launch Joystick Control**:
+    ```bash
+    ros2 launch robot_mobil joystick.launch.py
+    ```
+
+    > Configured for Xbox Series X controller. For configuring another controller, use the `joy_tester` repo.
+
+#### Additional Notes
+
+- If you want to configure another joystick, install and use the `joy_tester` repo in your workspace:
+    ```bash
+    cd your_workspace
+    git clone https://github.com/joshnewans/joy_tester.git
+    colcon build --symlink-install
+    ```
+    > Ignore the deprecation warnings.
+
+- **LIDAR Visualization**:
+    - Toggle the `visualize` parameter in `lidar.xacro` between `true/false`.
+
+- **RViz Visibility**:
+    - For better camera visibility, uncheck the robot model, grid model, etc.
+
+- **Important**:
+    - Update Ubuntu OS and all ROS2 tools to the latest version.
+    - Perform a fresh rebuild of the project:
+        ```bash
+        cd your_workspace
+        rm -rf build install log
+        colcon build --symlink-install
+        ```
