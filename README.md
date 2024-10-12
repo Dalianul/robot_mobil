@@ -21,11 +21,26 @@
     rviz2 -d dev_ws/src/robot_mobil/config/main_bot.rviz
     ```
 
-    > Note: Specified a custom config in the launch command.
+    ```bash
+    ros2 launch robot_mobil rviz_launch.py
+    ```
 
-ros2 launch rosbridge_server rosbridge_websocket_launch.xml //to start the rosbridge server
+    > Note: Specified a custom config in the launch command, use the ros2 launch command for Nav2.
 
-!!! Dont't forget about the visualize parameter in lidar.xacro-> true/false
+4. **Nav2**:
+    ```bash
+    ros2 launch robot_mobil localization_launch.py map:=./src/robot_mobil/maps/virtual_map_save.yaml use_sim_time:=true
+    ```
+    > Note: For AMCL Localization.
+
+    ```bash
+    ros2 launch robot_mobil navigation_launch.py use_sim_time:=true map_subscribe_transient_local:=true
+    ```
+
+    ```bash
+    ros2 launch robot_mobil navigation_launch.py use_sim_time:=true 
+    ```
+    > Note: For Nav2 Navigation, use the one with map_subscribe_transient_local:=true for running together with AMCL.
 
 #### Joystick Setup
 
@@ -65,3 +80,17 @@ ros2 launch rosbridge_server rosbridge_websocket_launch.xml //to start the rosbr
         rm -rf build install log
         colcon build --symlink-install
         ```
+- **Portable Router Config**:
+    - Configure it on WISP mode.
+    - For the static ip addresses: open the router's main menu, go to network lan settings and pick some ip addresses from the alocated ip address pool.
+    - Gateway: connect to the router, open the terminal and write the command:
+        ```bash
+        ip addr show
+        ```
+    And you get from the name of our router the second address from inet, that is the gateway which needs to be put in both netplan files for the dev machine and for your robot machine.
+    Current robot machine ip address to use when connecting with ssh: 192.168.0.101
+
+- **l3xz_sweep_scanner modification**:
+    - You have to add the two lines from below the SweepScannerNode.cpp:
+        -laser_scan_msg.header.stamp = this->now(); after laser_scan_msg.header.frame_id = _frame_id;
+        -laser_scan_msg.ranges.resize(200, std::numeric_limits<float>::infinity()); after laser_scan_msg.ranges.assign(scan.samples.size(), std::numeric_limits<float>::infinity());

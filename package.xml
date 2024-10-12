@@ -3,9 +3,9 @@
 <package format="3">
   <name>robot_mobil</name>
   <version>0.0.0</version>
-  <description>Package robot_mobil</description>
-  <maintainer email="ardeleandalian@gmail.com">Dalian</maintainer>
-  <license>Apache-2.0</license>
+  <description>TODO: Package description</description>
+  <maintainer email="ardeleanharalambie21@gmail.com">Haralambie Ardelean</maintainer>
+  <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

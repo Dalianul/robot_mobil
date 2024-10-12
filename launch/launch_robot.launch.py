@@ -34,6 +34,11 @@ def generate_launch_description():
     #             )])
     # )
 
+    lidar = IncludeLaunchDescription(
+                 PythonLaunchDescriptionSource([os.path.join(
+                     get_package_share_directory(package_name),'launch','scansesweep.launch.py'
+                 )])
+    ) 
 
     twist_mux_params = os.path.join(get_package_share_directory(package_name),'config','twist_mux.yaml')
     twist_mux = Node(
@@ -107,10 +112,10 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription([
         rsp,
-        # joystick,
+        #joystick,
+        lidar,
         twist_mux,
         delayed_controller_manager,
         delayed_diff_drive_spawner,
         delayed_joint_broad_spawner
     ])
-
