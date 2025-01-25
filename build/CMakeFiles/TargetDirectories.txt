@@ -1,9 +1,0 @@
-/home/robot/robot_ws/src/robot_mobil/build/CMakeFiles/uninstall.dir
-/home/robot/robot_ws/src/robot_mobil/build/CMakeFiles/robot_mobil_uninstall.dir
-/home/robot/robot_ws/src/robot_mobil/build/CMakeFiles/test.dir
-/home/robot/robot_ws/src/robot_mobil/build/CMakeFiles/edit_cache.dir
-/home/robot/robot_ws/src/robot_mobil/build/CMakeFiles/rebuild_cache.dir
-/home/robot/robot_ws/src/robot_mobil/build/CMakeFiles/list_install_components.dir
-/home/robot/robot_ws/src/robot_mobil/build/CMakeFiles/install.dir
-/home/robot/robot_ws/src/robot_mobil/build/CMakeFiles/install/local.dir
-/home/robot/robot_ws/src/robot_mobil/build/CMakeFiles/install/strip.dir
