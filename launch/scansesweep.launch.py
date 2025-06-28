@@ -12,6 +12,6 @@ def generate_launch_description():
           #Modify the serial_port path based on what machine you have connected the lidar
           {'serial_port' : '/dev/serial/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.3:1.0-port0'},
           {'rotation_speed': 5},
-          {'sample_rate': 1000},
+          {'sample_rate': 500},
           {'frame_id' : 'lidar_frame'}])
   ])

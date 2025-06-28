@@ -1,96 +1,141 @@
-### Robot Package
+Robot Mobil - Instrucțiuni de Instalare și Lansare
 
-#### Setup and Launch Instructions
+---
 
-1. **Run SLAM Toolbox**:
-    ```bash
-    ros2 launch slam_toolbox online_async_launch.py slam_params_file:=./src/robot_mobil/config/mapper_params_online_async.yaml use_sim_time:=true
-    ```
+Prezentare Generală
 
-    > Note: For mapping, use synchronous launch instead.
+Acest ghid oferă pașii structurați pentru a rula și controla sistemul robotului atât în simulare (robot virtual) cât și pe robotul fizic real, utilizând ROS 2 Humble.
 
-2. **Launch Simulation in Gazebo**:
-    ```bash
-    ros2 launch robot_mobil launch_sim.launch.py world:=./src/robot_mobil/worlds/MapaSimulare.world
-    ```
+---
 
-    > Note: Specified a custom world in the launch command.
+Cerințe Prealabile
 
-3. **Start RViz2**:
-    ```bash
-    rviz2 -d dev_ws/src/robot_mobil/config/main_bot.rviz
-    ```
+* ROS 2 Humble instalat
+* Sistem Ubuntu actualizat
+* Workspace-ul construit:
 
-    ```bash
-    ros2 launch robot_mobil rviz_launch.py
-    ```
+cd ~/dev_ws
+rm -rf build install log
+colcon build --symlink-install
 
-    > Note: Specified a custom config in the launch command, use the ros2 launch command for Nav2.
+---
 
-4. **Nav2**:
-    ```bash
-    ros2 launch robot_mobil localization_launch.py map:=./src/robot_mobil/maps/virtual_map_save.yaml use_sim_time:=true
-    ```
-    > Note: For AMCL Localization.
+LANSARE ÎN SIMULARE (ROBOT VIRTUAL)
 
-    ```bash
-    ros2 launch robot_mobil navigation_launch.py use_sim_time:=true map_subscribe_transient_local:=true
-    ```
+Se utilizează use_sim_time:=true pentru rularea în simulare.
 
-    ```bash
-    ros2 launch robot_mobil navigation_launch.py use_sim_time:=true 
-    ```
-    > Note: For Nav2 Navigation, use the one with map_subscribe_transient_local:=true for running together with AMCL.
+1. Rulează SLAM Toolbox
 
-#### Joystick Setup
+ros2 launch slam_toolbox online_async_launch.py
+slam_params_file:=./src/robot_mobil/config/mapper_params_online_async.yaml
+use_sim_time:=true
 
-1. **Install Joystick Drivers**:
-    ```bash
-    sudo apt install joystick jstest-gtk evtest
-    ```
+Pentru mapare (mapping), folosește online_sync_launch.py.
 
-2. **Launch Joystick Control**:
-    ```bash
-    ros2 launch robot_mobil joystick.launch.py
-    ```
+2. Lansează Simularea în Gazebo
 
-    > Configured for Xbox Series X controller. For configuring another controller, use the `joy_tester` repo.
+ros2 launch robot_mobil launch_sim.launch.py
+world:=./src/robot_mobil/worlds/MapaSimulare.world
 
-#### Additional Notes
+3. Pornește RViz cu configurație personalizată
 
-- If you want to configure another joystick, install and use the `joy_tester` repo in your workspace:
-    ```bash
-    cd your_workspace
-    git clone https://github.com/joshnewans/joy_tester.git
-    colcon build --symlink-install
-    ```
-    > Ignore the deprecation warnings.
+rviz2 -d ./src/robot_mobil/config/main_bot.rviz
+sau
+ros2 launch robot_mobil rviz_launch.py
 
-- **LIDAR Visualization**:
-    - Toggle the `visualize` parameter in `lidar.xacro` between `true/false`.
+4. Lansează Navigația
 
-- **RViz Visibility**:
-    - For better camera visibility, uncheck the robot model, grid model, etc.
+ros2 launch robot_mobil localization_launch.py
+map:=./src/robot_mobil/maps/virtual_map_save.yaml
+use_sim_time:=true
 
-- **Important**:
-    - Update Ubuntu OS and all ROS2 tools to the latest version.
-    - Perform a fresh rebuild of the project:
-        ```bash
-        cd your_workspace
-        rm -rf build install log
-        colcon build --symlink-install
-        ```
-- **Portable Router Config**:
-    - Configure it on WISP mode.
-    - For the static ip addresses: open the router's main menu, go to network lan settings and pick some ip addresses from the alocated ip address pool.
-    - Gateway: connect to the router, open the terminal and write the command:
-        ```bash
-        ip addr show
-        ```
-    And you get from the name of our router the second address from inet, that is the gateway which needs to be put in both netplan files for the dev machine and for your robot machine.
-    Current robot machine ip address to use when connecting with ssh: 192.168.0.101
+ros2 launch robot_mobil navigation_launch.py
+use_sim_time:=true map_subscribe_transient_local:=true
 
-- **l3xz_sweep_scanner modification**:
-    - You have to add the two lines from below the SweepScannerNode.cpp:
-        -laser_scan_msg.header.stamp = this->now(); after laser_scan_msg.header.frame_id = _frame_id;
-        -laser_scan_msg.ranges.resize(200, std::numeric_limits<float>::infinity()); after laser_scan_msg.ranges.assign(scan.samples.size(), std::numeric_limits<float>::infinity());
+A doua comandă este necesară pentru ca AMCL să funcționeze corect cu Nav2.
+
+---
+
+LANSARE PE ROBOTUL REAL
+
+Se utilizează use_sim_time:=false
+
+1. Pornește robotul și conectează-te
+
+SSH disponibil la adresa:
+
+ssh robot@192.168.0.101 (In cazul nostru)
+
+2. Lansează Robotul
+
+ros2 launch robot_mobil launch_robot.launch.py
+
+3. Control cu Joystick
+
+ros2 launch robot_mobil joystick.launch.py
+
+Este preconfigurat pentru Xbox Controller.
+
+4. Localizare AMCL
+
+ros2 launch nav2_bringup localization_launch.py
+map:=./src/robot_mobil/maps/apt_dalian.yaml
+use_sim_time:=false
+
+5. Navigație
+
+ros2 launch nav2_bringup navigation_launch.py
+use_sim_time:=false map_subscribe_transient_local:=false
+
+6. Vizualizare în RViz
+
+ros2 launch robot_mobil rviz_launch.py
+
+EXTRA : Urmărire Obiect (Ball Tracker)
+
+ros2 launch robot_mobil ball_tracker.launch.py
+
+Detectare obiect (minge de tenis):
+ros2 run ball_tracker detect_ball --ros-args -p tuning_mode:=true -r image_in:=camera/image_raw
+
+Urmărirea obiectului:
+ros2 run ball_tracker follow_ball --ros-args -r cmd_vel:=cmd_vel_tracker
+
+---
+
+Configurare Joystick
+
+Instalare drivere joystick:
+
+sudo apt install joystick jstest-gtk evtest
+
+---
+
+LIDAR și Cameră
+
+Pentru a activa vizualizarea LIDAR:
+Editează fișierul lidar.xacro și setează:
+
+<param name="visualize" value="true"/>
+
+Pentru o vizualizare mai clară în RViz, ascunde grila și modelul robotului dacă este necesar.
+
+---
+
+Configurare Rețea (Router Portabil)
+
+1. Configurează routerul în modul WISP
+2. Setează adrese IP statice în setările LAN ale routerului (din pool-ul de IP-uri alocate)
+3. Obține gateway-ul cu comanda:
+
+ip addr show
+
+4. Adaugă adresa gateway în fișierele de configurare netplan de pe ambele dispozitive (robot și stație de lucru)
+
+---
+
+Recomandări Finale
+
+* Reconstruiește întotdeauna cu colcon build --symlink-install după modificări
+* Verifică setarea use_sim_time în funcție de context (real sau simulare)
+* Menține ROS 2, Gazebo și dependințele actualizate
