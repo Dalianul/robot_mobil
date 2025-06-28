@@ -1,6 +1,6 @@
 set(_AMENT_PACKAGE_NAME "robot_mobil")
 set(robot_mobil_VERSION "0.0.0")
-set(robot_mobil_MAINTAINER "Haralambie Ardelean <ardeleanharalambie21@gmail.com>")
+set(robot_mobil_MAINTAINER "Haralambie Ardelean <ardeleanharalambie21@gmail.com>, Haralambie Ardelean <ardeleandalian@gmail.com>")
 set(robot_mobil_BUILD_DEPENDS )
 set(robot_mobil_BUILDTOOL_DEPENDS "ament_cmake")
 set(robot_mobil_BUILD_EXPORT_DEPENDS )
